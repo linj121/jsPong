@@ -1,0 +1,59 @@
+/* Pseudo-classes(:) enable you to target an element when it's in a particular state, 
+as if you had added a class for that state to the DOM. Pseudo-elements(::) act as if 
+you had added a whole new element to the DOM, and enable you to style that. */
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: var(--background-color);
+}
+
+/* declaring global css variables */
+/* same as the html selector but with a higher specificity */
+:root {
+   --hue: 200;
+   --saturation: 50%;
+   --foreground-color: hsl(var(--hue), var(--saturation), 75%);
+   --background-color: hsl(var(--hue), var(--saturation), 20%);
+}
+
+.paddle {
+    --position: 50;
+    /* absolute position make the element relative to its parent */
+    position: absolute;
+    background-color: var(--foreground-color);
+    /* moves the top of both paddles down by 50% by accessing the position variable*/
+    /* calc takes the position variable and multiplies it by 1vh to get 50vh */
+    /* it cannot be written as var(--position)vh */
+    top: calc(var(--position) * 1vh);
+    /* makes the width looks good on all screen sizes */
+    width: 1vh;
+    height: 10vh;
+    /* translateY with a negative value moves the element up by 50% of its length*/
+    transform: translateY(-50%);
+}
+
+.paddle.left {
+    /* 1vw takes up 1% of the viewport width, 
+    which means it is based on screen size,
+    while percentages are based on their parents  */
+    left: 1vw;
+}
+
+.paddle.right {
+    right: 1vw;
+}  
+
+.ball {
+    --x: 50;
+    --y: 50;
+
+    position: absolute;
+    background-color: var(--foreground-color);
+    top: calc(var(--position) * 1vh);
+    width: 1vh;
+    height: 10vh;
+    transform: translateY(-50%);
+}
