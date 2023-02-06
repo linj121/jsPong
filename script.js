@@ -12,7 +12,6 @@ const computerPaddle = new Paddle(document.getElementById('computer-paddle'));
 const playerScoreElement = document.getElementById("player-score");
 const computerScoreElement = document.getElementById("computer-score");
 
-
 //global var lastTime, keeps track of the time last time we call update
 let lastTime;
 
@@ -23,12 +22,13 @@ function update(time){
         const delta = time - lastTime;
         //update the ball using delta and rects of both paddles for collision detection
         ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
+        // "AI", believe it or not
         computerPaddle.update(delta, ball.y);
+        //change color by time
+        const hue = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--hue"));
+        document.documentElement.style.setProperty("--hue", hue + delta * 0.01);
 
-        if(isLose()) {
-            handleLose();
-            console.log("Lose");
-        }
+        if(isLose()) { handleLose(); }
     }
 
     //upon first call, lastTime is assigned with time
