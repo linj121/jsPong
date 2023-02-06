@@ -39,14 +39,14 @@ body {
     /* makes the width looks good on all screen sizes */
     width: 1vh;
     height: 10vh;
-    /* translateY with a negative value moves the element up by 50% of its length*/
+    /* translateY with a negative value moves the element up by 50% of its height*/
     transform: translateY(-50%);
 }
 
 .paddle.left {
     /* 1vw takes up 1% of the viewport width, 
     which means it is based on screen size,
-    while percentages are based on their parents  */
+    while percentages values like '1%' are based on their parents  */
     left: 1vw;
 }
 

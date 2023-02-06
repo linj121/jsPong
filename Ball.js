@@ -7,10 +7,13 @@ export default class Ball {
         this.reset();
     }
 
+    // get [expr]() {/.../} : The get syntax binds an object property 
+    // to a function that will be called when that property is looked up.
     get x() {
         return parseFloat(getComputedStyle(this.ballElement).getPropertyValue("--x"));
     }
 
+    // setter
     set x(value) {
         this.ballElement.style.setProperty("--x", value);
     }
@@ -43,7 +46,7 @@ export default class Ball {
         this.velocity = INITTIAL_VELOCITY;
     }
 
-    update(delta) {
+    update(delta, paddleRects) {
         this.x += this.direction.x * this.velocity * delta;
         this.y += this.direction.y * this.velocity * delta;
         const rect = this.rect();
@@ -52,10 +55,14 @@ export default class Ball {
         // The read-only innerHeight property of the Window interface 
         // returns the interior height of the window in pixels, including 
         // the height of the horizontal scroll bar, if present. 
+        // Y direction (vertical)
         if (rect.bottom >= window.innerHeight || rect.top <= 0) {
             this.direction.y *= -1;
         }
-        if (rect.right >= window.innerWidth || rect.left <= 0) {
+        // X direction (horizontal)
+        // some(...): It returns true if, in the array, it finds an element 
+        // for which the provided function returns true; otherwise it returns false.
+        if (paddleRects.some(r => isCollision(r, rect))) {
             this.direction.x *= -1;
         }
     }
@@ -66,4 +73,13 @@ export default class Ball {
 function randomNumberBetween(min, max) {
     // range + lower bound
     return Math.random() * (max - min) + min;
+}
+
+function isCollision(paddleRect, ballRect) {
+    return (
+        paddleRect.left <= ballRect.right &&
+        paddleRect.right >= ballRect.left &&
+        paddleRect.top <= ballRect.bottom &&
+        paddleRect.bottom >= ballRect.top
+    )
 }
